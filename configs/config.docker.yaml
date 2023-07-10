@@ -3,7 +3,11 @@ server:
   port: 8080
 debug: True
 oncall_host: http://localhost:8080
-metrics: dummy
+# newly added:
+metrics: prometheus
+prometheus:
+  oncall-notifier:
+    server_port: 8001
 db:
   conn:
     kwargs:
@@ -22,7 +26,7 @@ session:
   encrypt_key: 'abc'
   sign_key: '123'
 auth:
-  debug: False
+  debug: True
   module: 'oncall.auth.modules.debug'
 notifier:
   skipsend: True
