@@ -28,6 +28,7 @@ services:
     image: prom/prometheus
     volumes:
       - ./configs/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./configs/blackbox_targets:/etc/prometheus/blackbox/targets
     ports:
       - 9090:9090
     networks:

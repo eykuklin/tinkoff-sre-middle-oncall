@@ -10,7 +10,7 @@ After=network-online.target
 User=root
 Type=simple
 Restart=on-failure
-ExecStart=/opt/blackbox_exporter/blackbox_exporter --config.file=/home/user/oncall/configs/blackbox_http.yml
+ExecStart=/opt/blackbox_exporter/blackbox_exporter --config.file=/home/user/oncall/configs/blackbox.yml
 
 [Install]
 WantedBy=multi-user.target

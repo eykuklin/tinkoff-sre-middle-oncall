@@ -1,0 +1,5 @@
+- labels:
+    module: dns_tcp
+  targets:
+  - sql:8080
+
