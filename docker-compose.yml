@@ -34,6 +34,28 @@ services:
     networks:
       - iris
 
+  shift-oncall-exporter:
+    # build: ./src/shift_exporter
+    image: shift-oncall-exporter:latest
+    hostname: shifts-oncall-exporter
+    ports:
+      - 8002:8002
+    networks:
+      - iris
+
+  grafana-oncall:
+    hostname: grafana-oncall
+    image: grafana/grafana-enterprise
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    ports:
+      - 3000:3000
+    networks:
+      - iris
+
 networks:
   iris:
     name: iris
+
+volumes:
+  grafana-storage:
