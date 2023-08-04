@@ -1,6 +1,7 @@
 # By eykuklin, 2023
 
 import requests
+import time
 from dotenv import dotenv_values
 from loguru import logger
 
@@ -28,17 +29,20 @@ class ProcOncall:
 
     def get_credentials(self):
         """Obtain cookie and csrf token"""
-        try:
-            response = requests.post(url=f'{self.oncall_url}/login', headers={'Content-Type': 'application/x-www-form-urlencoded'},
-                                     data={'username': f'{self.user}', 'password': f'{self.passwd}'})
-            self.csrf_token = response.json()['csrf_token']
-            self.oncall_auth = response.cookies.get_dict()['oncall-auth']
-        except requests.exceptions.RequestException as e:
-            logger.error(e)
-            logger.error("Failed to obtain credentials. Quit...")
-            exit()
-        else:
-            logger.info("Obtaining credentials...")
+        success = True
+        while success:
+            try:
+                logger.info("Obtaining credentials...")
+                response = requests.post(url=f'{self.oncall_url}/login', headers={'Content-Type': 'application/x-www-form-urlencoded'},
+                                         data={'username': f'{self.user}', 'password': f'{self.passwd}'}, timeout=(2,3))
+                self.csrf_token = response.json()['csrf_token']
+                self.oncall_auth = response.cookies.get_dict()['oncall-auth']
+            except requests.exceptions.RequestException as e:
+                logger.error(e)
+                time.sleep(60)
+            else:
+                success = False
+                logger.info("...Done")
 
     def add_user(self, new_user: str):
         """Add a new user"""

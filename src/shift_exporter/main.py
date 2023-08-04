@@ -49,7 +49,7 @@ def main():
     # Scrape metrics
     while True:
         get_metrics(oncall_instance)
-        time.sleep(10)
+        time.sleep(300)
 
 
 if __name__ == '__main__':

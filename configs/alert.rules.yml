@@ -1,0 +1,33 @@
+groups:
+- name: PrometheusInstanceDown
+  rules:
+  - alert: InstanceDown
+    expr: up == 0
+    for: 2m
+    labels:
+      severity: 'critical'
+    annotations:
+      title: 'Instance {{ $labels.instance }} is down'
+      description: '{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 2 minutes.'
+
+- name: PrometheusJobMissing
+  rules:
+  - alert: JobMissing
+    expr: absent(up{job="shifts_exporter"})
+    for: 2m
+    labels:
+      severity: 'warning'
+    annotations:
+      title: 'Job {{ $labels.job }} is missing'
+      description: '{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 2 minutes.'
+
+#- name: PrometheusRuleEvaluationFailures
+#  rules:
+#  - alert: RuleEvaluationFailures
+#    expr: increase(prometheus_rule_evaluation_failures_total[3m]) > 0
+#    for: 0m
+#    labels:
+#      severity: critical
+#    annotations:
+#      summary: Prometheus rule evaluation failures (instance {{ $labels.instance }})
+#      description: "Prometheus encountered {{ $value }} rule evaluation failures, leading to potentially ignored alerts.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"

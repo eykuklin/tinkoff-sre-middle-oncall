@@ -29,15 +29,26 @@ services:
     volumes:
       - ./configs/prometheus.yml:/etc/prometheus/prometheus.yml
       - ./configs/blackbox_targets:/etc/prometheus/blackbox/targets
+      - ./configs/alert.rules.yml:/etc/prometheus/alert-rules/alert.rules.yml
     ports:
       - 9090:9090
     networks:
       - iris
 
+  alertmanager-oncall:
+    hostname: alertmanager-oncall
+    image: prom/alertmanager:latest
+    volumes:
+      - ./configs/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    ports:
+      - 9093:9093
+    networks:
+      - iris
+
   shift-oncall-exporter:
+    hostname: shifts-oncall-exporter
     # build: ./src/shift_exporter
     image: shift-oncall-exporter:latest
-    hostname: shifts-oncall-exporter
     ports:
       - 8002:8002
     networks:
